@@ -3,16 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="Account">
-        <menu>
-            <item
-                android:id="@+id/nav_account"
-                android:icon="@drawable/ic_account_circle"
-                android:title="Connectez-vous" />
-        </menu>
-    </item>
-
     <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/ic_account_circle"
+            android:title="Sign Up / Sign In" />
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"

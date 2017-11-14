@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "196272010492",
+    "firebase_url": "https://albumz-83a7a.firebaseio.com",
+    "project_id": "albumz-83a7a",
+    "storage_bucket": "albumz-83a7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196272010492:android:f70bdeea1ab38e48",
+        "android_client_info": {
+          "package_name": "com.example.sylvain.albumz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "196272010492-jpgm01cpv2scohjiu055017r326pc96a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpfqdyktSuBMZUaDHlPSDaXKoHS2JNgEA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

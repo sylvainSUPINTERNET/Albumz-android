@@ -1,11 +1,15 @@
 package com.example.sylvain.albumz;
 
 import android.app.FragmentTransaction;
+import android.content.ClipData;
+import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,13 +19,41 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
+
+
+public class MainActivity extends FragmentActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    public String current_user_name = null;
+    public String current_user_email = null;
+
+
+    protected FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+
+    protected DatabaseReference Db;
+    protected DatabaseReference Users;
+
+    protected NavigationView navigationView;
+    protected MenuItem itemAccount;
+
+
+    protected TextView test_connected_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -41,11 +73,12 @@ public class MainActivity extends FragmentActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
+        //test message welcom on connexion
+        test_connected_message = findViewById(R.id.test_connected_message);
 
 
 
@@ -74,9 +107,8 @@ public class MainActivity extends FragmentActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.nav_account) {
             return true;
         }
 
@@ -94,23 +126,26 @@ public class MainActivity extends FragmentActivity
         } else if (id == R.id.nav_gallery) {
             Log.d("gallery_route", "Click . . .");
 
-        }else if(id == R.id.nav_account)
-        {
+        } else if (id == R.id.nav_account) {
             // Check that the activity is using the layout version with
             // the fragment_container FrameLayout
-            if (findViewById(R.id.fragment_container) != null) {
-                // Create a new Fragment to be placed in the activity layout
-                AccountFragment accountFragment = new AccountFragment();
-                // In case this activity was started with special instructions from an
-                // Intent, pass the Intent's extras to the fragment as arguments
-                accountFragment.setArguments(getIntent().getExtras());
-                // Add the fragment to the 'fragment_container' FrameLayout
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                        .add(R.id.fragment_container, accountFragment).commit();
+            if(currentUser != null){
+                mAuth.getInstance().signOut();
+                startActivity(getIntent());
+            }else{
+                if (findViewById(R.id.fragment_container) != null) {
+                    // Create a new Fragment to be placed in the activity layout
+                    AccountFragment accountFragment = new AccountFragment();
+                    // In case this activity was started with special instructions from an
+                    // Intent, pass the Intent's extras to the fragment as arguments
+                    accountFragment.setArguments(getIntent().getExtras());
+                    // Add the fragment to the 'fragment_container' FrameLayout
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                            .add(R.id.fragment_container, accountFragment).commit();
+                }
             }
-
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -127,11 +162,28 @@ public class MainActivity extends FragmentActivity
         return true;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
-    //Submit new registration
-    public void registerSubmit(View view){
-        Log.d("submit", "registration !");
+        //DISPLAY DATA FROM CURRENT_USER
+        if (currentUser == null) {
+            //DISPLAY NOTHING no users
+            Log.d("current_user", "USER IS NOT CONNECTED");
+            navigationView.getMenu().getItem(0).setTitle("Sign / Sign in");
+
+        } else {
+            Log.d("current_user", currentUser.toString());
+            Log.d("current_user", currentUser.getEmail());
+            test_connected_message.setText("Your email " + currentUser.getEmail() + " TODO, getDisplayName()");
+            navigationView.getMenu().getItem(0).setTitle("Deconnexion");
+        }
+
     }
 
 
 }
+
+
