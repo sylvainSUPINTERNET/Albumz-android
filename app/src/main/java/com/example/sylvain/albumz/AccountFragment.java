@@ -3,6 +3,7 @@ package com.example.sylvain.albumz;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +40,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     public FirebaseUser currentUser;
 
 
+    ProgressBar progressBarAuth;
+    ScrollView scrollView;
     //UI register
     EditText register_email;
     EditText register_name;
@@ -74,6 +79,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         register_button.setOnClickListener(this);
 
 
+
+
         //Login
         login_email = view.findViewById(R.id.form_email_login);
         login_password = view.findViewById(R.id.form_password_login);
@@ -87,6 +94,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         // Inflate the layout for this fragment
 
+        progressBarAuth = view.findViewById(R.id.progressBarAuth);
+        scrollView = view.findViewById(R.id.scrollView);
         return view;
 
     }
@@ -131,7 +140,24 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
                                         //TODO: disable les inputs + redirect after 3 sc
 
-                                        goBackToHome();
+                                        progressBarAuth.setVisibility(View.VISIBLE);
+                                        login_email.setFocusable(false);
+                                        login_password.setFocusable(false);
+
+                                        login_button.setEnabled(false);
+
+
+                                        scrollView.fullScroll(ScrollView.FOCUS_UP);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                login_email.setFocusable(true);
+                                                login_password.setFocusable(true);
+                                                progressBarAuth.setVisibility(View.GONE);
+                                                login_button.setEnabled(true);
+                                                goBackToHome();
+                                            }
+                                        }, 3000);
 
                                     } else {
                                         Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -172,7 +198,28 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
                                         currentUser = mAuth.getCurrentUser();
-                                        goBackToHome();
+                                        progressBarAuth.setVisibility(View.VISIBLE);
+                                        register_name.setFocusable(false);
+                                        register_email.setFocusable(false);
+                                        register_password.setFocusable(false);
+                                        register_password_confirmed.setFocusable(false);
+                                        register_button.setEnabled(false);
+
+                                        scrollView.fullScroll(ScrollView.FOCUS_UP);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progressBarAuth.setVisibility(View.GONE);
+                                                register_name.setFocusable(true);
+                                                register_email.setFocusable(true);
+                                                register_password.setFocusable(true);
+                                                register_password_confirmed.setFocusable(true);
+
+                                                register_button.setEnabled(true);
+
+                                                goBackToHome();
+                                            }
+                                        }, 3000);
                                     }  else {
                                         Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }

@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +17,7 @@ public class User {
     protected String email;
     protected String password;
     protected String password_confirmed;
+    protected List<Album> userAlbumz;
 
     protected FirebaseUser currentUser;
 
@@ -62,6 +64,19 @@ public class User {
     public void setConfirmedPassword(String newConfirmedPassword){
         this.password_confirmed = newConfirmedPassword;
     }
+
+    public List<Album> getUserAlbumz() {
+        return userAlbumz;
+    }
+
+    public void setUserAlbumz(List<Album> userAlbumz) {
+        this.userAlbumz = userAlbumz;
+    }
+
+    public void addUserAlbumz(Album albumz){
+        this.userAlbumz.add(albumz);
+    }
+
     public String getConfirmedPassword(){
         return this.password_confirmed;
     }
