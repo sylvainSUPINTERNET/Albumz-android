@@ -106,10 +106,33 @@ public class AlbumCreationFragment extends Fragment implements View.OnClickListe
                     Album album = new Album(albumName.getText().toString(), currentUser, publicSwitch.isChecked());
                     String noeud = album.random();
 
-                    storageRef.child(album.getAlbumName());
-                    mDatabase.child("albumz").child(noeud).child("albumName").setValue(album.getAlbumName());
-                    mDatabase.child("albumz").child(noeud).child("user").setValue(currentUser);
-                    mDatabase.child("albumz").child(noeud).child("publicAlbum").setValue(album.isPublicAlbum());
+                    if (publicSwitch.isChecked()){
+                        //public
+
+                        //albumz -> public -> album
+
+                        storageRef.child(album.getAlbumName());
+                        mDatabase.child("albumz").child("public").child(noeud).child("albumName").setValue(album.getAlbumName());
+                        mDatabase.child("albumz").child("public").child(noeud).child("user").setValue(currentUser);
+                        mDatabase.child("albumz").child("public").child(noeud).child("publicAlbum").setValue(album.isPublicAlbum());
+
+                    } else{
+                        //private
+
+                        // albumz -> private -> user -> album
+
+                        storageRef.child(album.getAlbumName());
+                        mDatabase.child("albumz").child("private").child(currentUser.getUid()).child(noeud).child("albumName").setValue(album.getAlbumName());
+                        mDatabase.child("albumz").child("private").child(currentUser.getUid()).child(noeud).child("user").setValue(currentUser);
+                        mDatabase.child("albumz").child("private").child(currentUser.getUid()).child(noeud).child("publicAlbum").setValue(album.isPublicAlbum());
+
+                        /*
+                        mDatabase.child("albumz").child(noeud).child("albumName").setValue(album.getAlbumName());
+                        mDatabase.child("albumz").child(noeud).child("user").setValue(currentUser);
+                        mDatabase.child("albumz").child(noeud).child("publicAlbum").setValue(album.isPublicAlbum());
+                        */
+
+                    }
 
                     goBackToHome();
                 }
