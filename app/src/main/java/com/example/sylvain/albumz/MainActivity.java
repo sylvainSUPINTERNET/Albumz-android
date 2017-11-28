@@ -180,7 +180,7 @@ public class MainActivity extends FragmentActivity implements NavigationView.OnN
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                    .add(R.id.fragment_container, listAlbumFragment).commit();
+                    .replace(R.id.fragment_container, listAlbumFragment).commit();
         }
     }
 
@@ -195,7 +195,7 @@ public class MainActivity extends FragmentActivity implements NavigationView.OnN
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                    .add(R.id.fragment_container, UploadFragment).commit();
+                    .replace(R.id.fragment_container, UploadFragment).commit();
         }
     }
 
@@ -211,7 +211,7 @@ public class MainActivity extends FragmentActivity implements NavigationView.OnN
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                    .add(R.id.fragment_container, albumCreationFragment).commit();
+                    .replace(R.id.fragment_container, albumCreationFragment).commit();
         }
     }
 
@@ -226,7 +226,7 @@ public class MainActivity extends FragmentActivity implements NavigationView.OnN
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                    .add(R.id.fragment_container, accountFragment).commit();
+                    .replace(R.id.fragment_container, accountFragment).commit();
         }
     }
 

@@ -14,10 +14,10 @@ import java.util.Random;
 public class Album {
 
     protected String albumName;
-    protected FirebaseUser user;
+    protected User user;
     protected boolean publicAlbum;
 
-    public Album(String albumName, FirebaseUser user, boolean publicAlbum) {
+    public Album(String albumName, User user, boolean publicAlbum) {
         this.albumName = albumName;
         this.user = user;
         this.publicAlbum = publicAlbum;
@@ -32,11 +32,11 @@ public class Album {
         this.albumName = albumName;
     }
 
-    public FirebaseUser getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(FirebaseUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

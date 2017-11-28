@@ -3,18 +3,14 @@ package com.example.sylvain.albumz;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -27,6 +23,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     private final LayoutInflater layoutInflater;
     private Context context;
     private ArrayList<Album> listAlbums = new ArrayList<>();
+
     private DatabaseReference mDatabase;
 
     public AlbumAdapter(Context context) {
@@ -34,24 +31,30 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         layoutInflater = LayoutInflater.from(context);
     }
 
-
-
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View view = layoutInflater.inflate(R.layout.album_item,parent,false);
+
         mDatabase = FirebaseDatabase.getInstance().getReference("albumz/public");
-        View view = layoutInflater.inflate(R.layout.list_album,parent,false);
-
-
         return new ViewHolder(view);
     }
 
 
+    public void addAlbum(Album album){
+        listAlbums.add(0, album);
+        notifyDataSetChanged();
+    }
+
+    public void removeAlbum(Album album){
+        listAlbums.remove(album);
+        notifyDataSetChanged();
+    }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Album album = listAlbums.get(position);
-        holder.albumName.setText(album.getUser().getEmail());
+        holder.userName.setText(album.getUser().getEmail());
         holder.albumName.setText(album.getAlbumName());
     }
 

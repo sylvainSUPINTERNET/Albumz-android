@@ -56,7 +56,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
 
     //User.Class
-    User User_utils = new User(); //constructor only to get Utils methods (clear, isExist etc )
+    FirebaseUtils User_utils = new FirebaseUtils(); //constructor only to get Utils methods (clear, isExist etc )
 
     //user try to auth
     User userToAuthRegister;

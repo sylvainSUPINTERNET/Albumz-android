@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "1032025706497",
-    "firebase_url": "https://albumz-8a493.firebaseio.com",
-    "project_id": "albumz-8a493",
-    "storage_bucket": "albumz-8a493.appspot.com"
+    "project_number": "110991851467",
+    "firebase_url": "https://albumz-f296b.firebaseio.com",
+    "project_id": "albumz-f296b",
+    "storage_bucket": "albumz-f296b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1032025706497:android:f70bdeea1ab38e48",
+        "mobilesdk_app_id": "1:110991851467:android:f70bdeea1ab38e48",
         "android_client_info": {
           "package_name": "com.example.sylvain.albumz"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1032025706497-16ib8i7sb5d9i8a7bmq8vkrsu1rnj1vc.apps.googleusercontent.com",
+          "client_id": "110991851467-1vmnok1mqh6qtg1iirpne9f2qsdkdg4q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBrLK8ayx1l8qv7e4drikTr3a1ZvjquSl4"
+          "current_key": "AIzaSyC1WU1hIaK33YFWY6_4PCtmDV-uvl3zN7g"
         }
       ],
       "services": {

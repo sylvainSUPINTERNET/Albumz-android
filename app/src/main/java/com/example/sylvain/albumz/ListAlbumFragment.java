@@ -33,7 +33,7 @@ import java.util.Map;
 public class ListAlbumFragment extends Fragment {
 
     RecyclerView rvAlbumz;
-    private AlbumAdapter adapter;
+    AlbumAdapter adapter;
 
 
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -58,6 +58,13 @@ public class ListAlbumFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
+
+        FirebaseUtils.listenToPublicAlbumz(new FirebaseUtils.OnAlbumzRetrieved() {
+            @Override
+            public void onAlbumzAdded(Album album) {
+                adapter.addAlbum(album);
+            }
+        });
 
         return view;
 

@@ -13,8 +13,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -38,7 +41,7 @@ public class AlbumCreationFragment extends Fragment implements View.OnClickListe
     EditText albumName;
     Switch publicSwitch;
     Button album_submit;
-
+    User userConnected;
     //User.Class
     Album Album_utils = new Album(); //constructor only to get Utils methods (clear, isExist etc )
 
@@ -57,7 +60,12 @@ public class AlbumCreationFragment extends Fragment implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-
+        FirebaseUtils.retrieveUser(new FirebaseUtils.OnUserRetrieved() {
+            @Override
+            public void onUserRetrieved(User user) {
+                userConnected = user;
+            }
+        });
         //Login
         albumName = view.findViewById(R.id.albumName);
         publicSwitch = view.findViewById(R.id.publicAlbum);
@@ -103,7 +111,7 @@ public class AlbumCreationFragment extends Fragment implements View.OnClickListe
                     Toast.makeText(getActivity(), error_str, Toast.LENGTH_SHORT).show();
                 } else {
 
-                    Album album = new Album(albumName.getText().toString(), currentUser, publicSwitch.isChecked());
+                    Album album = new Album(albumName.getText().toString(), userConnected, publicSwitch.isChecked());
                     String noeud = album.random();
 
                     if (publicSwitch.isChecked()){
@@ -113,7 +121,7 @@ public class AlbumCreationFragment extends Fragment implements View.OnClickListe
 
                         storageRef.child(album.getAlbumName());
                         mDatabase.child("albumz").child("public").child(noeud).child("albumName").setValue(album.getAlbumName());
-                        mDatabase.child("albumz").child("public").child(noeud).child("user").setValue(currentUser);
+                        mDatabase.child("albumz").child("public").child(noeud).child("user").setValue(userConnected);
                         mDatabase.child("albumz").child("public").child(noeud).child("publicAlbum").setValue(album.isPublicAlbum());
 
                     } else{
@@ -123,7 +131,7 @@ public class AlbumCreationFragment extends Fragment implements View.OnClickListe
 
                         storageRef.child(album.getAlbumName());
                         mDatabase.child("albumz").child("private").child(currentUser.getUid()).child(noeud).child("albumName").setValue(album.getAlbumName());
-                        mDatabase.child("albumz").child("private").child(currentUser.getUid()).child(noeud).child("user").setValue(currentUser);
+                        mDatabase.child("albumz").child("private").child(currentUser.getUid()).child(noeud).child("user").setValue(userConnected);
                         mDatabase.child("albumz").child("private").child(currentUser.getUid()).child(noeud).child("publicAlbum").setValue(album.isPublicAlbum());
 
                         /*
