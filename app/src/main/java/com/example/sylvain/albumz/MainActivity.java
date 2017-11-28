@@ -130,6 +130,8 @@ public class MainActivity extends FragmentActivity implements NavigationView.OnN
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            redirectUpload();
+
         } else if (id == R.id.nav_gallery) {
             redirectListAlbum();
 
@@ -181,6 +183,22 @@ public class MainActivity extends FragmentActivity implements NavigationView.OnN
                     .add(R.id.fragment_container, listAlbumFragment).commit();
         }
     }
+
+    private void redirectUpload() {
+        if (findViewById(R.id.fragment_container) != null) {
+            // Create a new Fragment to be placed in the activity layout
+            UploadFragment UploadFragment = new UploadFragment();
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            UploadFragment.setArguments(getIntent().getExtras());
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                    .add(R.id.fragment_container, UploadFragment).commit();
+        }
+    }
+
 
     private void redirectAlbumCreation() {
         if (findViewById(R.id.fragment_container) != null) {
