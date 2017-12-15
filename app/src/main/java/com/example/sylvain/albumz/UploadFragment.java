@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -86,9 +89,6 @@ public class UploadFragment extends Fragment implements View.OnClickListener {
 
 
     public void onClickUploadImage(View view) {
-
-        System.out.println("oooototototo");
-
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -107,9 +107,6 @@ public class UploadFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
-        System.out.println(view.getId());
-
         switch (view.getId()) {
 
             case R.id.select:
@@ -127,7 +124,12 @@ public class UploadFragment extends Fragment implements View.OnClickListener {
                     StorageReference imageRef = storageRef.child("images/" + key + " .jpg");
                     UploadTask uploadTask = null;
                     try {
-                        uploadTask = imageRef.putStream(getActivity().getContentResolver().openInputStream(selectedImageUri));
+                        uploadTask = imageRef.putStream(getActivity().getContentResolver().openInputStream(selectedImageUri)).addOnCompleteListener(new OnCompleteListener<UploadTask>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask> task) {
+                                task.getResult().;
+                            }
+                        });
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

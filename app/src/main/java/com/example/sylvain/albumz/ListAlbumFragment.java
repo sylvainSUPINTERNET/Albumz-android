@@ -30,7 +30,7 @@ import java.util.Map;
  * Created by michaelguerfi on 21/11/2017.
  */
 
-public class ListAlbumFragment extends Fragment {
+public class ListAlbumFragment extends Fragment implements AlbumAdapter.OnAlbumSelectedListener {
 
     RecyclerView rvAlbumz;
     AlbumAdapter adapter;
@@ -52,7 +52,7 @@ public class ListAlbumFragment extends Fragment {
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         rvAlbumz.setLayoutManager(manager);
-        adapter = new AlbumAdapter(getContext());
+        adapter = new AlbumAdapter(this);
         rvAlbumz.setAdapter(adapter);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
 
@@ -68,6 +68,11 @@ public class ListAlbumFragment extends Fragment {
 
         return view;
 
+    }
+
+    @Override
+    public void onAlbumSelected(Album album) {
+        ((MainActivity) getActivity()).redirectAlbumShow(album);
     }
 
 }

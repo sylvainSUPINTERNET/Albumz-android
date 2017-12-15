@@ -23,11 +23,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     private final LayoutInflater layoutInflater;
     private Context context;
     private ArrayList<Album> listAlbums = new ArrayList<>();
+    private ListAlbumFragment fragment;
 
     private DatabaseReference mDatabase;
 
-    public AlbumAdapter(Context context) {
-        this.context = context;
+    public AlbumAdapter(ListAlbumFragment fragment) {
+        this.context = fragment.getContext();
+        this.fragment = fragment;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -52,10 +54,17 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Album album = listAlbums.get(position);
         holder.userName.setText(album.getUser().getEmail());
         holder.albumName.setText(album.getAlbumName());
+
+        holder.albumName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragment.onAlbumSelected(listAlbums.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
@@ -75,5 +84,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             albumName = itemView.findViewById(R.id.albumName);
             userName = itemView.findViewById(R.id.userName);
         }
+    }
+
+
+    public interface OnAlbumSelectedListener{
+        void onAlbumSelected(Album album);
     }
 }

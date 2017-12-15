@@ -230,6 +230,22 @@ public class MainActivity extends FragmentActivity implements NavigationView.OnN
         }
     }
 
+    public void redirectAlbumShow(Album album){
+        if (findViewById(R.id.fragment_container) != null) {
+            // Create a new Fragment to be placed in the activity layout
+            AlbumShowFragment albumShowFragment = new AlbumShowFragment();
+            Bundle args = new Bundle();
+            args.putString("albumName",album.getAlbumName());
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            albumShowFragment.setArguments(args);
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                    .replace(R.id.fragment_container, albumShowFragment).commit();
+        }
+    }
 
     @Override
     public void onStart() {
@@ -251,6 +267,8 @@ public class MainActivity extends FragmentActivity implements NavigationView.OnN
         }
 
     }
+
+
 
 
 }
